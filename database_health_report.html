@@ -1,0 +1,98 @@
+
+    <html>
+    <head>
+        <title>Database Health Check Report</title>
+        <style>
+            body {background-color:#ffffff;}
+            .container {width:90%; margin:auto; margin-top:20px;background-color:#999999;overflow:hidden; box-shadow: 10px 10px;padding-bottom:25px;}
+            .headerbox {width:auto; padding:10px;padding-bottom:0px;background-color:#595659;vertical-align: center;}
+            .main {background-color: #f9f9f9;padding: 20px;float: right;width: 70%;}
+            .left {background-color: #999999;margin:5px;padding: 5px;float:left; width: 20%; }
+            .TABLE1 {width:auto;font:0.8em/145% Segoe UI,helvetica,Segoe UI,Segoe UI;padding-bottom:10px;}
+            TABLE {width:100%;border-width: 0px;border-style: solid;border-color: black;font:0.8em/145% Segoe UI,helvetica,Segoe UI,Segoe UI;padding: 2px;}
+            TH {border-width: 1px;padding: 2px;border-style: solid;border-color: black;background-color:#007DB8;}
+            TD {border-width: 1px;padding: 2px;border-style: solid;border-color: black;vertical-align: left;}
+            tr:nth-child(odd) { background-color:#F2F2F2;}
+            tr:nth-child(even) { background-color:#DDDDDD;}
+            .p1 {font:15px; font-family:Segoe UI,helvetica,Segoe UI,Segoe UI;}
+            .footer {clear:center;width:auto;padding:20px;font:0.9em/145% Segoe UI;margin:5px; text-align:center;vertical-align: center;}
+            .lefttable, td, th {border: 0px;text-align: left;vertical-align: center;font:0.9em/145% Segoe UI,helvetica,Segoe UI,Segoe UI;}
+            .lefttable {width: 100%;border-collapse: collapse;font:0.9em/145% Segoe UI,helvetica,Segoe UI,Segoe UI;}
+            .h4 {color:black;}
+            @media screen and (max-width: 800px) {.left, .main{width: 90%;}}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="headerbox">
+                <h2 class="h4">Database Health Check Report</h2>
+                <p class="p1">Server: WIN-O2Q4BM3O2QL, Date: 2024-11-19 01:35:57</p>
+            </div>
+            
+            <div class="left">
+                <h3>Service Status</h3>
+                <ul class="lefttable">
+                    <li>SQL Server (MSSQLSERVER): <span style='color:green;'>Running</span></li><li>SQL Server Agent (MSSQLSERVER): <span style='color:green;'>Running</span></li>
+                </ul>
+            </div>
+            
+            <div class="main">
+                <h3>Database Status</h3>
+                <table class="TABLE1">
+                    <tr><th>Database</th><th>Status</th><th>Compatibility</th></tr>
+                    <tr><td>master</td><td style='color:green;'>ONLINE</td><td>160</td></tr><tr><td>tempdb</td><td style='color:green;'>ONLINE</td><td>160</td></tr><tr><td>model</td><td style='color:green;'>ONLINE</td><td>160</td></tr><tr><td>msdb</td><td style='color:green;'>ONLINE</td><td>160</td></tr><tr><td>AdventureWorksLT2022</td><td style='color:green;'>ONLINE</td><td>160</td></tr><tr><td>AdventureWorksLT2017</td><td style='color:green;'>ONLINE</td><td>110</td></tr>
+                </table>
+                
+                <h3>Disk Information</h3>
+                <table class="TABLE1">
+                    <tr><th>Drive</th><th>Free Space (MB)</th></tr>
+                    <tr><td>C</td><td>32934</td></tr>
+                </table>
+
+                <h3>Top Blockers</h3>
+                </table>
+                <table class="TABLE1">
+                    <tr><th>blocking_session_id</th><th>session_id</th><th>wait_type</th><th>wait_time</th><th>status</th></tr>
+                    
+                </table>
+
+                <h3>Top Running Queries</h3>
+                <table class="TABLE1">
+                    <tr><th>CPU_MS</th><th>Text</th></tr>
+                    <tr><td>12053</td><td>SELECT
+  cast(DB_Name(a.database_id) as varchar) AS [db],
+  sum(io_stall_read_ms) / 1000.0 AS [read],
+  sum(io_stall_write_ms) / 1000.0 AS [write],
+  sum(io_stall) / 1000.0 AS io_stall
+FROM
+  sys.dm_io_virtual_file_stats(null, null) a
+INNER JOIN sys.master_files b ON a.database_id = b.database_id AND a.file_id = b.file_id
+GROUP BY a.database_id
+</td></tr><tr><td>1398</td><td>SELECT DB_NAME(sp.dbid) AS db, COUNT(sp.spid) AS count
+FROM sys.sysprocesses sp
+GROUP BY DB_NAME(sp.dbid)
+</td></tr><tr><td>1200</td><td>SELECT target_data
+									FROM sys.dm_xe_session_targets xet WITH(nolock)
+									JOIN sys.dm_xe_sessions xes WITH(nolock)
+									ON xes.address = xet.event_session_address
+									WHERE xes.name = 'telemetry_xevents'
+									AND xet.target_name = 'ring_buffer'</td></tr><tr><td>1171</td><td>SELECT
+  (total_page_file_kb - available_page_file_kb) * 1024 AS used,
+  available_page_file_kb * 1024 AS available
+FROM sys.dm_os_sys_memory
+</td></tr><tr><td>1163</td><td>SELECT
+  (total_physical_memory_kb - available_physical_memory_kb) * 1024 AS used,
+  available_physical_memory_kb * 1024 AS available
+FROM sys.dm_os_sys_memory
+</td></tr>
+                </table>
+                <h3>Log Space Details</h3>    
+                <table class="TABLE1">
+                <tr><th>Database Name</th><th>Log Size (MB)</th><th>Log Space Used (%)</th><th>Status</th></tr>
+                <tr><td>master</td><td>1.24</td><td style='color:green'>50.0</td><td>0</td></tr><tr><td>tempdb</td><td>7.99</td><td style='color:green'>8.36</td><td>0</td></tr><tr><td>model</td><td>7.99</td><td style='color:green'>30.99</td><td>0</td></tr><tr><td>msdb</td><td>1.49</td><td style='color:green'>41.36</td><td>0</td></tr><tr><td>AdventureWorksLT2022</td><td>1.99</td><td style='color:green'>30.39</td><td>0</td></tr><tr><td>AdventureWorksLT2017</td><td>2.24</td><td style='color:green'>29.44</td><td>0</td></tr><tr><td>model_msdb</td><td>0.99</td><td style='color:green'>56.3</td><td>0</td></tr><tr><td>model_replicatedmaster</td><td>1.24</td><td style='color:green'>32.39</td><td>0</td></tr>
+</table>
+            </div>
+        </div>
+    </body>
+    </html>
+    
