@@ -1,106 +1,66 @@
-### pyton basic commands ###
-###################################################################
+## pythonInstallation from command line
 
-#check version
-python --version 
-# or
-import sys
-print(sys.version)
+## step 1: run as admin command prompt
+msiexec /i python<version>.msi TARGETDIR=C:\python25
 
-## if condition
-if 5 > 2:
-  print("Five is greater than two!")
-  
-## multiple line comment
-"""
-This is a comment
-written in
-more than just one line
-"""
-print("Hello, World!") 
+example: 
+msiexec /i python3.13.0.msi TARGETDIR=C:\Temp\python\python25
 
-## variable 
-x = str(3)
-y = int(3)
-z = float(3)
-print(x)
-print(y)
-print(z)
+## Uninstallation 
+msiexec /a python<version>.msi
 
-## data types
-'''
-Text Type       :	str
-Numeric Types   :	int, float, complex
+## step 2 : Set environment variable for python big path using command prompt
+set PATH=%PATH%;C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Scripts
+## set permanently 
+setx /M path "%path%;C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Scripts"
 
-Sequence Types  :	list, tuple, range
-#example
-x = ["apple", "banana", "cherry"]	list	
-x = ("apple", "banana", "cherry")	tuple	
-x = range(6)
+## Using powershell to set the path
+$PATH = [Environment]::GetEnvironmentVariable("PATH")
+$xampp_path = "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Scripts"
+[Environment]::SetEnvironmentVariable("PATH", "$PATH;$xampp_path")
 
-Mapping Type    :	dict
-x = {"name" : "John", "age" : 36}
+## set path using powershell for all users
+$PATH = [Environment]::GetEnvironmentVariable("PATH")
+$xampp_path = "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Scripts"
+[Environment]::SetEnvironmentVariable("PATH", "$PATH;$xampp_path", "Machine")
 
-Set Types       :	set, frozenset
-x = {"apple", "banana", "cherry"}
-x = frozenset({"apple", "banana", "cherry"})
+## verify the path
+C:\>path
+##or 
+echo %PATH%
 
-Boolean Type    :	bool
-Binary Types    :	bytes, bytearray, memoryview
-None Type       :	NoneType
-'''
+## backup the path
+C:\> echo %PATH% > C:\path-backup.txt
+
+## check the python installation version
+python --version
+pip --version
+
+## installation of PIP package 
+#To ensure you have the latest version of pip, run:
+
+python -m pip install --upgrade pip
+
+## upgrade pip
+python -m pip install --upgrade pip
 
 
-## casting
-x = int(2.8) ## x will be 2
-y = float(3) ## y will be 3.0
-z = str(3.0) ## z will be '3.0'
+## Packages installation after PIP
+## drivers path: https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16
+## ODBC driver. not required if SQL is installed on your system
+pip install pyodbc
 
-## Slicing Strings
-b = "hellow, world!"
-print(b[0:5]) ## will be hellow
-print(b.upper()) ## capitals
-print(b.lower()) ## lower case
-print(b.strip()) ## removes the whitespaces
-print(b.replace("H", "J")) ## replace a string
-print(b.split(",") ## splits the string into substring
 
-## concate
-a = "Hello"
-b = "World"
-c = a + b
-print(c) ## helloWorld
+## import package for excel outputs
+pip install pandas
+pip install openpyxl
 
-## add space inbetween
-a = "Hello"
-b = "World"
-c = a + " " + b
-print(c)
+## Windows level package for the windows eventviews 
+pip install pywin32
+python -m pywin32_postinstall
 
-## format string
-age = 36
-txt = f"My name is John, I am {age}"
-print(txt)  ## My name is John, I am 36
+## for disk util
+pip install psutil
 
-price = 59
-txt = f"The price is {price:.2f} dollars"
-print(txt) ## The price is 59.00 dollars
 
-txt = f"The price is {20 * 59} dollars"
-print(txt) ## the price is 1180 dollars
-
-## escape character allows you to use double quotes
-txt = "We are the so-called \"Vikings\" from the north."
-print(txt) ## We are the so-called "Vikings" from the north.
-'''
-\'	Single Quote    >> txt = 'It\'s alright.' >> It's alright
-\\	Backslash	    >> txt = "This will insert one \\ (backslash)." >> This will insert one \ (backslash)
-\n	New Line	    >> txt = "Hello\nWorld!" >> two lines 
-\r	Carriage Return	>> txt = "Hello\rWorld!"
-\t	Tab	            >> txt = "Hello\tWorld!" >> Hellow   world!
-\b	Backspace	    >> txt = "Hello \bWorld!" >> HelloWorld!
-\f	Form Feed	
-\ooo	Octal value	>> txt = "\110\145\154\154\157" >> Hellow
-\xhh	Hex value   >> txt = "\x48\x65\x6c\x6c\x6f" >> Hellow
-'''
 
